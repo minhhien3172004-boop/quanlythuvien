@@ -100,10 +100,10 @@
             // 
             // dtpHenTra
             // 
-            this.dtpHenTra.Location = new System.Drawing.Point(828, 97);
+            this.dtpHenTra.Location = new System.Drawing.Point(773, 91);
             this.dtpHenTra.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dtpHenTra.Name = "dtpHenTra";
-            this.dtpHenTra.Size = new System.Drawing.Size(298, 32);
+            this.dtpHenTra.Size = new System.Drawing.Size(335, 32);
             this.dtpHenTra.TabIndex = 6;
             // 
             // btnChoMuon

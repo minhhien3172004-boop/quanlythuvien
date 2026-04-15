@@ -14,15 +14,12 @@ namespace quanlithuvien
         {
             InitializeComponent();
         }
-
-        // Sự kiện khi Form vừa mở lên
         private void FormMuonTra_Load(object sender, EventArgs e)
         {
-            LoadDataToCombo();   // Hiện danh sách sách vào ô chọn
-            LoadDataGridView(); // Hiện danh sách đã mượn vào bảng
+            LoadDataToCombo(); 
+            LoadDataGridView(); 
         }
 
-        // HÀM 1: Nạp danh sách sách vào ComboBox
         private void LoadDataToCombo()
         {
             using (SqlConnection conn = new SqlConnection(strCon))
@@ -33,14 +30,13 @@ namespace quanlithuvien
                     SqlDataAdapter da = new SqlDataAdapter(sql, conn);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    cboSach.DisplayMember = "TenSach"; // Hiện tên sách
-                    cboSach.ValueMember = "MaSach";    // Ẩn mã sách bên dưới
+                    cboSach.DisplayMember = "TenSach"; 
+                    cboSach.ValueMember = "MaSach";  
                     cboSach.DataSource = dt;
                 }
                 catch (Exception ex) { MessageBox.Show("Lỗi nạp sách: " + ex.Message); }
             }
         }
-        // HÀM 2: Nạp dữ liệu vào bảng DataGridView
         private void LoadDataGridView()
         {
             using (SqlConnection conn = new SqlConnection(strCon))
@@ -57,7 +53,6 @@ namespace quanlithuvien
                     da.Fill(dt);
 
                     dvgPhieuMuon.DataSource = dt;
-                    // Tự động dãn cột cho đẹp
                     dvgPhieuMuon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 }
                 catch (Exception ex) { MessageBox.Show("Lỗi bảng: " + ex.Message); }
@@ -79,7 +74,7 @@ namespace quanlithuvien
                 SqlTransaction trans = conn.BeginTransaction();
                 try
                 {
-                    // Bước A: Lưu thông tin độc giả và lấy ID tự động tăng (MaDG)
+                    // Bước A: Lưu thông tin độc giả
                     string sqlDG = "INSERT INTO DocGia (HoTen, SDT) OUTPUT INSERTED.MaDG VALUES (@hoten, @sdt)";
                     SqlCommand cmdDG = new SqlCommand(sqlDG, conn, trans);
                     cmdDG.Parameters.AddWithValue("@hoten", txtHoTenDG.Text);
@@ -102,11 +97,9 @@ namespace quanlithuvien
                     int rows = cmdUp.ExecuteNonQuery();
                     if (rows == 0) throw new Exception("Sách này đã hết!");
 
-                    // HOÀN TẤT
                     trans.Commit();
                     MessageBox.Show("Mượn sách thành công!");
-                    
-                    // Cập nhật lại giao diện
+
                     LoadDataGridView(); 
                     txtHoTenDG.Clear();
                     txtSDTDG.Clear();
@@ -129,11 +122,8 @@ namespace quanlithuvien
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
                 return;
             }
-
-            // Thông báo giả định để kiểm tra nút bấm đã hoạt động chưa
             MessageBox.Show($"Đã nhận yêu cầu trả sách: {maSach} của số ĐT: {sdt}");
 
-            // Sau khi bạn viết xong hàm LoadDuLieu() và XuLyTraSach() thì mới gọi chúng ở đây
         }
-    }
+        }
 }
